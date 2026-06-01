@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChevronRight, ShieldCheck, HeartPulse, ClipboardCheck } from "lucide-react";
+import { Breadcrumb } from "@/components/ui";
 
 interface CityBreederHeroProps {
   stateName: string;
@@ -22,47 +23,16 @@ export default function CityBreederHero({
     <section className="bg-white pt-8 md:pt-10 pb-8 md:pb-10 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
 
-        {/* Breadcrumb — 4 crumbs, 3 chevrons */}
-        <nav aria-label="Breadcrumb" className="mb-8 md:mb-10">
-          <ol className="flex flex-wrap items-center gap-2 text-sm text-nav-text">
-            <li>
-              <Link
-                href="/"
-                className="hover:text-brand-dark transition-colors focus-visible:outline-2 focus-visible:outline-brand-red focus-visible:outline-offset-2 rounded"
-              >
-                Home
-              </Link>
-            </li>
-            <li aria-hidden="true">
-              <ChevronRight className="w-4 h-4 text-brand-dark" />
-            </li>
-            <li>
-              <Link
-                href="/breeders"
-                className="hover:text-brand-dark transition-colors focus-visible:outline-2 focus-visible:outline-brand-red focus-visible:outline-offset-2 rounded"
-              >
-                Breeders
-              </Link>
-            </li>
-            <li aria-hidden="true">
-              <ChevronRight className="w-4 h-4 text-brand-dark" />
-            </li>
-            <li>
-              <Link
-                href={`/breeders/${stateSlug}`}
-                className="hover:text-brand-dark transition-colors focus-visible:outline-2 focus-visible:outline-brand-red focus-visible:outline-offset-2 rounded"
-              >
-                {stateName}
-              </Link>
-            </li>
-            <li aria-hidden="true">
-              <ChevronRight className="w-4 h-4 text-brand-dark" />
-            </li>
-            <li className="text-brand-dark font-semibold" aria-current="page">
-              {cityName}
-            </li>
-          </ol>
-        </nav>
+        {/* Breadcrumb — 4 crumbs */}
+        <Breadcrumb
+          className="mb-8 md:mb-10"
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Breeders", href: "/breeders" },
+            { label: stateName, href: `/breeders/${stateSlug}` },
+            { label: cityName, isActive: true },
+          ]}
+        />
 
         {/* H1 + sub-copy */}
         <div className="max-w-3xl">

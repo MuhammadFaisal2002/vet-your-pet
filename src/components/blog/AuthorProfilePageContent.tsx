@@ -7,6 +7,7 @@ import { ChevronRight, Globe, ShieldCheck } from "lucide-react";
 import { Article, AuthorProfileDetails } from "@/data/articles";
 import { VETS } from "@/data/vets";
 import { BREEDERS } from "@/data/breeders";
+import { Breadcrumb } from "@/components/ui";
 import ArticleCard from "./ArticleCard";
 
 interface AuthorProfilePageContentProps {
@@ -32,35 +33,15 @@ export default function AuthorProfilePageContent({
       <div className="max-w-7xl mx-auto px-6 w-full pt-6 flex flex-col items-start">
         
         {/* 1. Breadcrumbs */}
-        <nav className="mb-6" aria-label="Breadcrumb">
-          <ol className="flex items-center flex-wrap gap-2 text-xs font-poppins font-medium text-nav-text">
-            <li>
-              <Link href="/" className="hover:text-brand-red transition-colors">
-                Home
-              </Link>
-            </li>
-            <li className="flex items-center text-gray-300">
-              <ChevronRight className="w-3.5 h-3.5" />
-            </li>
-            <li>
-              <Link href="/blog" className="hover:text-brand-red transition-colors">
-                Blog
-              </Link>
-            </li>
-            <li className="flex items-center text-gray-300">
-              <ChevronRight className="w-3.5 h-3.5" />
-            </li>
-            <li className="text-brand-dark font-semibold">
-              Authors
-            </li>
-            <li className="flex items-center text-gray-300">
-              <ChevronRight className="w-3.5 h-3.5" />
-            </li>
-            <li className="text-brand-dark font-semibold truncate max-w-[200px] sm:max-w-xs">
-              {author.name}
-            </li>
-          </ol>
-        </nav>
+        <Breadcrumb
+          className="mb-6"
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Blog", href: "/blog" },
+            { label: "Authors", href: "/blog/authors" },
+            { label: author.name, isActive: true },
+          ]}
+        />
 
         {/* 2. Author hero — avatar, name, role, bio */}
         <section className="w-full bg-white rounded-2xl p-6 md:p-10 border border-pet-stroke shadow-card flex flex-col md:flex-row gap-8 items-center md:items-start mb-8">

@@ -23,7 +23,7 @@ import { DogShow } from "@/data/shows";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import { ShowCard } from "./ShowCard";
 import { ShowModal } from "./ShowModal";
-import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { Breadcrumb, HeroGradientCard } from "@/components/ui";
 
 interface StateInfo {
   slug: string;
@@ -87,7 +87,6 @@ export default function DogShowsByStatePageContent({
   shows,
   allStates,
 }: Props) {
-  const [selectedShow, setSelectedShow] = useState<DogShow | null>(null);
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
 
   const { upcoming, past } = useMemo(() => partitionShows(shows), [shows]);
@@ -110,33 +109,22 @@ export default function DogShowsByStatePageContent({
         />
 
         {/* ── 2. Hero ── */}
-        <div
-          className="animate-on-scroll animate-fade-in-down w-full overflow-hidden rounded-[20px] border border-pet-stroke"
-          style={{
-            background: "linear-gradient(270deg, #F6F5F4 0%, #F8F6F5 100%)",
-          }}
-        >
-          <div className="flex flex-col gap-6 p-[30px] md:flex-row md:items-stretch md:gap-0 md:p-0">
-            {/* Profile image (State Icon) */}
-            <div className="flex-shrink-0 md:p-[30px]">
-              <div className="h-[160px] w-[160px] bg-white border border-pet-stroke rounded-[6px] flex flex-col items-center justify-center shadow-sm">
-                <div className="w-12 h-12 bg-brand-red/10 rounded-xl flex items-center justify-center mb-3">
-                  <MapPin className="w-6 h-6 text-brand-red" />
-                </div>
-                <p className="font-poppins font-extrabold text-4xl text-brand-dark">{stateAbbr}</p>
-                <p className="font-poppins text-[10px] text-nav-text mt-1 uppercase tracking-widest">{stateName}</p>
+        <HeroGradientCard
+          leftContent={
+            <div className="h-[160px] w-[160px] bg-white border border-pet-stroke rounded-[6px] flex flex-col items-center justify-center shadow-sm">
+              <div className="w-12 h-12 bg-brand-red/10 rounded-xl flex items-center justify-center mb-3">
+                <MapPin className="w-6 h-6 text-brand-red" />
               </div>
+              <p className="font-poppins font-extrabold text-4xl text-brand-dark">{stateAbbr}</p>
+              <p className="font-poppins text-[10px] text-nav-text mt-1 uppercase tracking-widest">{stateName}</p>
             </div>
-
-            {/* Info */}
-            <div className="flex flex-1 flex-col justify-center gap-6 md:py-[34px] md:pr-6">
+          }
+          middleContent={
+            <>
               <div className="flex flex-col gap-4">
-                {/* Name */}
                 <h1 className="text-[20px] font-medium text-[#26292F]">
                   Dog Shows in {stateName}
                 </h1>
-
-                {/* Badges */}
                 <div className="flex flex-wrap items-center gap-2">
                   <div className="flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 border border-[#E4DFDC] shadow-sm">
                     <Trophy className="w-3.5 h-3.5 text-[#4A5565]" />
@@ -156,36 +144,24 @@ export default function DogShowsByStatePageContent({
                   )}
                 </div>
               </div>
-
-              {/* Scope & Coverage */}
               <div className="flex flex-col gap-3">
                 <div className="flex min-h-[24px] items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#9199A4]" />
-                  <span className="text-[14px] font-medium leading-5 text-[#4A5565]">
-                    Region
-                  </span>
-                  <span className="text-[14px] font-normal leading-5 text-[#9199A4]">
-                    All AKC events hosted in {stateName}
-                  </span>
+                  <span className="text-[14px] font-medium leading-5 text-[#4A5565]">Region</span>
+                  <span className="text-[14px] font-normal leading-5 text-[#9199A4]">All AKC events hosted in {stateName}</span>
                 </div>
                 <div className="flex min-h-[24px] items-center gap-2">
                   <Award className="w-4 h-4 text-[#9199A4]" />
-                  <span className="text-[14px] font-medium leading-5 text-[#4A5565]">
-                    Coverage
-                  </span>
-                  <span className="text-[14px] font-normal leading-5 text-[#9199A4] line-clamp-1">
-                    Conformation, obedience, agility & specialties
-                  </span>
+                  <span className="text-[14px] font-medium leading-5 text-[#4A5565]">Coverage</span>
+                  <span className="text-[14px] font-normal leading-5 text-[#9199A4] line-clamp-1">Conformation, obedience, agility & specialties</span>
                 </div>
               </div>
-            </div>
-
-            {/* Quick Actions — separated by border */}
-            <div className="flex flex-col justify-end gap-5 border-t border-[#E4DFDC] py-5 md:border-l md:border-t-0 md:px-10 md:py-5">
+            </>
+          }
+          rightContent={
+            <>
               <div className="flex flex-col gap-[5px]">
-                <span className="text-[12px] font-normal text-[#9199A4]">
-                  Directory Action:
-                </span>
+                <span className="text-[12px] font-normal text-[#9199A4]">Directory Action:</span>
                 <button
                   onClick={() => setActiveTab("upcoming")}
                   className="text-left text-[14px] font-medium text-[#26292F] hover:text-brand-red transition-colors inline-flex items-center gap-1"
@@ -194,9 +170,7 @@ export default function DogShowsByStatePageContent({
                 </button>
               </div>
               <div className="flex flex-col gap-[5px]">
-                <span className="text-[12px] font-normal text-[#9199A4]">
-                  Browse:
-                </span>
+                <span className="text-[12px] font-normal text-[#9199A4]">Browse:</span>
                 <a
                   href="#clubs"
                   className="text-left text-[14px] font-medium text-[#26292F] hover:text-brand-red transition-colors"
@@ -204,9 +178,9 @@ export default function DogShowsByStatePageContent({
                   Regional Breed Clubs
                 </a>
               </div>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        />
       </div>
 
       {/* ── 3. Events List (Upcoming + Past Tabs) ── */}
@@ -261,7 +235,6 @@ export default function DogShowsByStatePageContent({
                 key={show.slug}
                 show={show}
                 isPast={activeTab === "past"}
-                onDetails={setSelectedShow}
               />
             ))}
           </div>
@@ -384,10 +357,6 @@ export default function DogShowsByStatePageContent({
 
 
 
-      {/* ── Show Details Modal ── */}
-      {selectedShow && (
-        <ShowModal show={selectedShow} onClose={() => setSelectedShow(null)} />
-      )}
     </div>
   );
 }

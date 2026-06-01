@@ -16,5 +16,10 @@ export type { TabBarProps } from "./TabBar";
 export { MapCard, buildGoogleMapsUrl } from "./MapCard";
 export type { MapCardAddress, MapCardProps } from "./MapCard";
 
-export { SectionHeader } from "./SectionHeader";
+export * from "./Breadcrumb";
+export * from "./SectionHeader";
+export * from "./HeroGradientCard";
 export type { SectionHeaderProps } from "./SectionHeader";
+export { PhotoGallery } from "./PhotoGallery";
+export type { PhotoGalleryProps } from "./PhotoGallery";
+

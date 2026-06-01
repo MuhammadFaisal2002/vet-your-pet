@@ -70,6 +70,7 @@ module.exports = {
         "chip-exp-text": "#4A5FAD",
       },
       fontFamily: {
+        sans: ["var(--font-poppins)", "sans-serif"],
         poppins: ["var(--font-poppins)", "sans-serif"],
         manrope: ["Manrope", "sans-serif"],
       },

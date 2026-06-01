@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, ArrowRight } from "lucide-react";
 import { CategoryDetails, Article, CATEGORIES, getAuthorSlug } from "@/data/articles";
+import { Breadcrumb } from "@/components/ui";
 import ArticleCard from "./ArticleCard";
 import NewsletterSignup from "@/components/NewsletterSignup";
 
@@ -28,29 +29,16 @@ export default function BlogCategoryPageContent({
   return (
     <div className="min-h-screen bg-pet-bg font-sans">
       {/* 1. Breadcrumbs */}
-      <nav className="px-6 pt-6 pb-2 max-w-7xl mx-auto w-full">
-        <ol className="flex items-center flex-wrap gap-2 text-xs font-poppins font-medium text-nav-text">
-          <li>
-            <Link href="/" className="hover:text-brand-red transition-colors">
-              Home
-            </Link>
-          </li>
-          <li className="flex items-center text-gray-300">
-            <ChevronRight className="w-3.5 h-3.5" />
-          </li>
-          <li>
-            <Link href="/blog" className="hover:text-brand-red transition-colors">
-              Blog
-            </Link>
-          </li>
-          <li className="flex items-center text-gray-300">
-            <ChevronRight className="w-3.5 h-3.5" />
-          </li>
-          <li className="text-brand-dark font-semibold whitespace-nowrap">
-            {categoryDetails.name}
-          </li>
-        </ol>
-      </nav>
+      {/* 1. Breadcrumbs */}
+      <div className="px-6 pt-6 pb-2 max-w-7xl mx-auto w-full">
+        <Breadcrumb
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Blog", href: "/blog" },
+            { label: categoryDetails.name, isActive: true },
+          ]}
+        />
+      </div>
 
       {/* 2. Hero Section */}
       <section className="bg-white px-6 pt-8 pb-12 border-b border-pet-stroke mb-8">

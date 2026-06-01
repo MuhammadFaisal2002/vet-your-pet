@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, ArrowRight } from "lucide-react";
 import { Article, getAuthorSlug } from "@/data/articles";
+import { Breadcrumb } from "@/components/ui";
 import AuthorCard from "./AuthorCard";
 import ShareButtons from "./ShareButtons";
 import ArticleCard from "./ArticleCard";
@@ -38,43 +39,18 @@ export default function BlogDetailPageContent({
   return (
     <div className="min-h-screen bg-pet-bg font-sans pb-16">
       {/* Container aligning everything cleanly to the navbar width sequence */}
-      <div className="max-w-7xl mx-auto px-6 w-full pt-6 flex flex-col items-start">
+      <div className="max-w-[1170px] mx-auto px-6 w-full pt-6 flex flex-col items-start">
         
         {/* 1. Breadcrumbs */}
-        <nav className="mb-6" aria-label="Breadcrumb">
-          <ol className="flex items-center flex-wrap gap-2 text-xs font-poppins font-medium text-nav-text">
-            <li>
-              <Link href="/" className="hover:text-brand-red transition-colors">
-                Home
-              </Link>
-            </li>
-            <li className="flex items-center text-gray-300">
-              <ChevronRight className="w-3.5 h-3.5" />
-            </li>
-            <li>
-              <Link href="/blog" className="hover:text-brand-red transition-colors">
-                Blog
-              </Link>
-            </li>
-            <li className="flex items-center text-gray-300">
-              <ChevronRight className="w-3.5 h-3.5" />
-            </li>
-            <li>
-              <Link
-                href={`/blog/category/${article.category.toLowerCase()}`}
-                className="hover:text-brand-red transition-colors"
-              >
-                {article.category}
-              </Link>
-            </li>
-            <li className="flex items-center text-gray-300">
-              <ChevronRight className="w-3.5 h-3.5" />
-            </li>
-            <li className="text-brand-dark font-semibold truncate max-w-[200px] sm:max-w-xs md:max-w-md">
-              {article.title}
-            </li>
-          </ol>
-        </nav>
+        <Breadcrumb
+          className="mb-6"
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Blog", href: "/blog" },
+            { label: article.category, href: `/blog/category/${article.category.toLowerCase()}` },
+            { label: article.title, isActive: true },
+          ]}
+        />
 
         {/* 2. Article Hero — left aligned title, author, date, category, hero image */}
         <header className="flex flex-col items-start text-left w-full mb-10">

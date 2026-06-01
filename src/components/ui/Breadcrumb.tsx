@@ -78,18 +78,17 @@ export function Breadcrumb({ items, className = "" }: BreadcrumbProps) {
             {index > 0 && <ChevronIcon />}
 
             {index === 0 ? (
-              /* First item: house icon + label */
+              /* First item: no icon + label */
               <Link
                 href={item.href || "/"}
-                className="flex items-center gap-[5px] text-[12px] text-[#A5ADB7] hover:text-pet-gray-darker transition-colors"
+                className="flex items-center gap-[5px] text-sm font-poppins font-medium text-nav-text hover:text-brand-red transition-colors"
               >
-                <HouseIcon />
                 <span>{item.label}</span>
               </Link>
             ) : item.isActive ? (
               /* Current page — not a link */
               <span
-                className="text-[12px] font-normal text-[#2E3237]"
+                className="text-sm font-poppins font-bold text-brand-dark"
                 aria-current="page"
               >
                 {item.label}
@@ -98,13 +97,13 @@ export function Breadcrumb({ items, className = "" }: BreadcrumbProps) {
               /* Intermediate link */
               <Link
                 href={item.href}
-                className="text-[12px] text-[#A5ADB7] hover:text-pet-gray-darker transition-colors"
+                className="text-sm font-poppins font-medium text-nav-text hover:text-brand-red transition-colors"
               >
                 {item.label}
               </Link>
             ) : (
               /* Intermediate non-link (city, etc.) */
-              <span className="text-[12px] text-[#A5ADB7]">{item.label}</span>
+              <span className="text-sm font-poppins font-medium text-nav-text">{item.label}</span>
             )}
           </React.Fragment>
         ))}

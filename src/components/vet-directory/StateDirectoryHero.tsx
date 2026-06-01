@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronRight, ShieldCheck, HeartPulse, ClipboardCheck, Search } from "lucide-react";
+import { Breadcrumb } from "@/components/ui";
 
 interface StateDirectoryHeroProps {
   stateName: string;
@@ -41,35 +42,14 @@ export default function StateDirectoryHero({
     <section className="bg-white pt-8 md:pt-10 pb-8 md:pb-10 px-6 md:px-12 lg:px-20">
       <div className="max-w-7xl mx-auto">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-8 md:mb-10">
-          <ol className="flex flex-wrap items-center gap-2 text-sm text-nav-text">
-            <li>
-              <Link
-                href="/"
-                className="hover:text-brand-dark transition-colors focus-visible:outline-2 focus-visible:outline-brand-red focus-visible:outline-offset-2 rounded"
-              >
-                Home
-              </Link>
-            </li>
-            <li aria-hidden="true">
-              <ChevronRight className="w-4 h-4 text-brand-dark" />
-            </li>
-            <li>
-              <Link
-                href={basePath}
-                className="hover:text-brand-dark transition-colors focus-visible:outline-2 focus-visible:outline-brand-red focus-visible:outline-offset-2 rounded"
-              >
-                {baseLabel}
-              </Link>
-            </li>
-            <li aria-hidden="true">
-              <ChevronRight className="w-4 h-4 text-brand-dark" />
-            </li>
-            <li className="text-brand-dark font-semibold" aria-current="page">
-              {stateName}
-            </li>
-          </ol>
-        </nav>
+        <Breadcrumb
+          className="mb-8 md:mb-10"
+          items={[
+            { label: "Home", href: "/" },
+            { label: baseLabel, href: basePath },
+            { label: stateName, isActive: true },
+          ]}
+        />
 
         {/* H1 + sub-copy */}
         <div className="max-w-3xl">

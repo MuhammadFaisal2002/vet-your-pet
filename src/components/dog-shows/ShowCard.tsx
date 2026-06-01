@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Calendar as CalendarIcon,
   Building,
@@ -16,14 +17,11 @@ interface ShowCardProps {
   show: DogShow;
   /** Whether the event has already passed (changes styling) */
   isPast?: boolean;
-  /** Callback fired when the user clicks 'View Details' or the title */
-  onDetails: (show: DogShow) => void;
 }
 
 export function ShowCard({
   show,
   isPast = false,
-  onDetails,
 }: ShowCardProps) {
   return (
     <div
@@ -33,7 +31,7 @@ export function ShowCard({
     >
       <div>
         {/* Photo */}
-        <div className="relative aspect-[3/2] w-full overflow-hidden bg-gray-50 border-b border-pet-stroke">
+        <Link href={`/dog-shows/${show.slug}`} className="relative aspect-[3/2] w-full overflow-hidden bg-gray-50 border-b border-pet-stroke block group">
           <Image
             src={show.photo}
             alt={show.name}
@@ -42,7 +40,7 @@ export function ShowCard({
             sizes="(min-width: 1024px) 30vw, (min-width: 768px) 50vw, 100vw"
           />
           {/* Badges */}
-          <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+          <div className="absolute top-3 left-3 flex flex-col items-start gap-1.5 z-10">
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-brand-red text-white text-[10px] font-bold uppercase tracking-wider shadow-sm font-poppins">
               {show.organization}
             </span>
@@ -59,14 +57,14 @@ export function ShowCard({
               </span>
             )}
           </div>
-        </div>
+        </Link>
 
         {/* Content */}
         <div className="p-5 flex flex-col gap-3">
           <h3 className="font-poppins font-bold text-base text-brand-dark leading-snug line-clamp-2 hover:text-brand-red transition-colors">
-            <button onClick={() => onDetails(show)} className="text-left">
+            <Link href={`/dog-shows/${show.slug}`} className="text-left">
               {show.name}
-            </button>
+            </Link>
           </h3>
 
           <div className="flex flex-col gap-2 text-xs font-poppins text-nav-text">
@@ -96,13 +94,13 @@ export function ShowCard({
         <span className="text-[10px] font-bold text-pet-tag-text bg-pet-tag-bg px-2.5 py-1 rounded-full uppercase tracking-wider font-poppins line-clamp-1 max-w-[55%]">
           {show.club}
         </span>
-        <button
-          onClick={() => onDetails(show)}
+        <Link
+          href={`/dog-shows/${show.slug}`}
           className="inline-flex items-center gap-1.5 font-poppins font-semibold text-xs bg-brand-red text-white rounded-full px-4 py-2 hover:opacity-90 transition-opacity flex-shrink-0"
         >
           View Details
           <ArrowRight className="w-3 h-3" />
-        </button>
+        </Link>
       </div>
     </div>
   );

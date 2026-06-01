@@ -22,6 +22,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { DOG_SHOWS, DogShow } from "@/data/shows";
+import { Breadcrumb } from "@/components/ui";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import { ShowCard } from "./ShowCard";
 import { ShowModal } from "./ShowModal";
@@ -52,7 +53,6 @@ export default function DogShowsPageContent() {
   const [viewMode, setViewMode] = useState<"list" | "calendar">("list");
   const [calendarMonth, setCalendarMonth] = useState(5); // Default to June (5)
   const [calendarYear] = useState(2026); // Fixed year
-  const [selectedShow, setSelectedShow] = useState<DogShow | null>(null);
 
   // Sync calendar month view with filter month
   useEffect(() => {
@@ -150,25 +150,18 @@ export default function DogShowsPageContent() {
   return (
     <div className="min-h-screen bg-pet-bg font-sans">
       {/* 1. Breadcrumbs */}
-      <nav className="px-6 pt-6 pb-2 max-w-7xl mx-auto w-full">
-        <ol className="flex items-center flex-wrap gap-2 text-xs font-poppins font-medium text-nav-text">
-          <li>
-            <Link href="/" className="hover:text-brand-red transition-colors">
-              Home
-            </Link>
-          </li>
-          <li className="flex items-center text-gray-300">
-            <ChevronRight className="w-3.5 h-3.5" />
-          </li>
-          <li className="text-brand-dark font-semibold whitespace-nowrap">
-            Dog Shows
-          </li>
-        </ol>
-      </nav>
+      <div className="px-6 pt-6 pb-2 max-w-7xl mx-auto w-full">
+        <Breadcrumb
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Dog Shows", isActive: true },
+          ]}
+        />
+      </div>
 
       {/* 2. Hero Section & Interactive Search */}
-      <section className="bg-white px-6 pt-8 pb-12 border-b border-pet-stroke">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-white pt-8 pb-12 border-b border-pet-stroke">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-2 font-poppins font-medium text-xs text-brand-red mb-3 tracking-wide uppercase">
@@ -303,7 +296,7 @@ export default function DogShowsPageContent() {
           filteredShows.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch">
               {filteredShows.map((show) => (
-                <ShowCard key={show.slug} show={show} onDetails={setSelectedShow} />
+                <ShowCard key={show.slug} show={show} />
               ))}
             </div>
           ) : (
@@ -385,15 +378,15 @@ export default function DogShowsPageContent() {
                     {/* Show listings for this day cell */}
                     <div className="flex-1 flex flex-col justify-end gap-1 mt-1 overflow-y-auto scrollbar-hide">
                       {showsOnDay.map((show) => (
-                        <div
+                        <Link
                           key={show.slug}
-                          onClick={() => setSelectedShow(show)}
+                          href={`/dog-shows/${show.slug}`}
                           title={`${show.name} - ${show.city}, ${show.stateAbbr}`}
                           className="bg-brand-red text-white text-[9px] font-poppins font-medium rounded p-1 leading-tight truncate cursor-pointer transition-opacity hover:opacity-90 flex items-center gap-0.5"
                         >
                           <Trophy className="w-2.5 h-2.5 flex-shrink-0" />
                           <span className="truncate">{show.name}</span>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -425,7 +418,7 @@ export default function DogShowsPageContent() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {featuredShows.map((show) => (
-              <ShowCard key={`featured-${show.slug}`} show={show} onDetails={setSelectedShow} />
+              <ShowCard key={`featured-${show.slug}`} show={show} />
             ))}
           </div>
         </div>
@@ -543,11 +536,6 @@ export default function DogShowsPageContent() {
 
       {/* 8. Newsletter Signup */}
       <NewsletterSignup className="bg-pet-bg" />
-
-      {/* Show Details Modal */}
-      {selectedShow && (
-        <ShowModal show={selectedShow} onClose={() => setSelectedShow(null)} />
-      )}
     </div>
   );
 }
