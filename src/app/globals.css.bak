@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --brand-red: 350 64% 55%;
+  --brand-dark: 228 9% 21%;
+  --brand-gray: 225 3% 62%;
+  --nav-text: 216 4% 44%;
+  --nav-border: 2 4% 29%;
+}
+
+@layer base {
+  * {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  body {
+    @apply bg-white text-foreground font-poppins;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Makes a dog photo look like a light teal line-art sketch */
+  .breed-sketch-img {
+    filter: grayscale(1) contrast(6) brightness(3) invert(1) sepia(1) hue-rotate(175deg) saturate(6) opacity(0.28);
+  }
+}

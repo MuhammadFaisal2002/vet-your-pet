@@ -1,0 +1,154 @@
+'use client';
+
+import { useState, useCallback, useEffect } from 'react';
+import { QUIZ_QUESTIONS } from '@/lib/breed-quiz-data';
+import { scoreBreeds, QuizResult } from '@/lib/breed-quiz-scoring';
+import { IntroScreen } from '@/components/quiz/IntroScreen';
+import { QuestionStep } from '@/components/quiz/QuestionStep';
+import { ResultsScreen } from '@/components/quiz/ResultsScreen';
+import { QuizFaqSchema, QuizFaqAccordion } from '@/components/quiz/QuizFaqSchema';
+
+type QuizStep = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 'results';
+
+interface QuizState {
+  step: QuizStep;
+  answers: Record<string, string>;
+}
+
+const TOTAL_QUESTIONS = QUIZ_QUESTIONS.length;
+
+export default function QuizPage() {
+  const [state, setState] = useState<QuizState>({
+    step: 0,
+    answers: {},
+  });
+  const [pendingAnswer, setPendingAnswer] = useState<string | null>(null);
+  const [, startTransition] = useState(() => {});
+
+  const beginQuiz = useCallback(() => {
+    setState({ step: 1, answers: {} });
+  }, []);
+
+  const selectAnswer = useCallback((answerId: string) => {
+    const currentQuestion = QUIZ_QUESTIONS[state.step - 1];
+    if (!currentQuestion) return;
+
+    // Set pending answer for visual feedback
+    setPendingAnswer(answerId);
+
+    // Auto-advance after 250ms
+    setTimeout(() => {
+      setState((prev) => {
+        const newAnswers = { ...prev.answers, [currentQuestion.id]: answerId };
+        const nextStep = prev.step + 1;
+
+        if (nextStep > TOTAL_QUESTIONS) {
+          // Score and show results
+          const results = scoreBreeds(newAnswers);
+          return {
+            step: 'results' as QuizStep,
+            answers: newAnswers,
+          };
+        }
+
+        return {
+          step: nextStep as QuizStep,
+          answers: newAnswers,
+        };
+      });
+      setPendingAnswer(null);
+    }, 250);
+  }, [state.step]);
+
+  const goBack = useCallback(() => {
+    setState((prev) => {
+      if (prev.step <= 1) return prev;
+      const newStep = prev.step - 1 as QuizStep;
+      
+      // Remove the answer for the current step we're going back to
+      const newAnswers = { ...prev.answers };
+      if (newStep >= 1 && newStep <= TOTAL_QUESTIONS) {
+        const questionToRemove = QUIZ_QUESTIONS[newStep - 1];
+        if (questionToRemove) {
+          delete newAnswers[questionToRemove.id];
+        }
+      }
+
+      return {
+        step: newStep,
+        answers: newAnswers,
+      };
+    });
+  }, []);
+
+  const retakeQuiz = useCallback(() => {
+    setState({ step: 0, answers: {} });
+  }, []);
+
+  // Handle keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (state.step === 0 || state.step === 'results') return;
+      
+      if (e.key === 'Escape') {
+        if (state.step > 1) {
+          goBack();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [state.step, goBack]);
+
+  const renderStep = () => {
+    if (state.step === 0) {
+      return <IntroScreen onStart={beginQuiz} />;
+    }
+
+    if (state.step === 'results') {
+      const results = scoreBreeds(state.answers);
+      return (
+        <>
+          <ResultsScreen results={results} onRetake={retakeQuiz} />
+          <QuizFaqAccordion />
+        </>
+      );
+    }
+
+    const questionIndex = state.step - 1;
+    const question = QUIZ_QUESTIONS[questionIndex];
+    const selectedAnswer = state.answers[question.id] || pendingAnswer;
+
+    return (
+      <QuestionStep
+        question={question}
+        currentStep={state.step}
+        totalSteps={TOTAL_QUESTIONS}
+        selectedAnswer={selectedAnswer}
+        onSelectAnswer={selectAnswer}
+        onGoBack={goBack}
+      />
+    );
+  };
+
+  return (
+    <>
+      <QuizFaqSchema />
+      <div className="max-w-7xl mx-auto px-4 md:px-12 lg:px-20 py-8">
+        {/* Skip link for accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand-red focus:text-white focus:rounded"
+        >
+          Skip to results
+        </a>
+
+        {/* Main quiz content */}
+        <div id="main-content">
+          {renderStep()}
+        </div>
+      </div>
+    </>
+  );
+}
