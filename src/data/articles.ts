@@ -481,3 +481,111 @@ export function getCategoryBySlug(slug: string): CategoryDetails | undefined {
 export function getArticlesByCategory(categoryName: BlogCategory): Article[] {
   return ARTICLES.filter((a) => a.category === categoryName);
 }
+
+export interface AuthorProfileDetails {
+  name: string;
+  slug: string;
+  bio: string;
+  role: string;
+  type: "vet" | "breeder";
+  photo: string;
+  practiceSlug: string;
+  specialties: string;
+  website: string;
+  twitter?: string;
+  facebook?: string;
+  instagram?: string;
+}
+
+export const AUTHORS_DATA: Record<string, AuthorProfileDetails> = {
+  "dr-sarah-chen": {
+    name: "Dr. Sarah Chen",
+    slug: "dr-sarah-chen",
+    role: "DVM, Clinic Owner",
+    type: "vet",
+    photo: "https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=200",
+    practiceSlug: "coastal-pet-hospital",
+    specialties: "Cardiology, Internal Medicine",
+    bio: "Dr. Sarah Chen is a licensed veterinarian specializing in canine cardiology and general practice. With over 12 years of clinical experience, she runs Coastal Pet Hospital and is passionate about educating dog owners on early disease detection, cardiac care, and responsible breed health screenings.",
+    website: "https://coastalpethospital.com",
+    twitter: "https://twitter.com/drsarahchen",
+    instagram: "https://instagram.com/coastalpethospital",
+  },
+  "lone-star-kennels": {
+    name: "Lone Star Kennels",
+    slug: "lone-star-kennels",
+    role: "Verified Breeder",
+    type: "breeder",
+    photo: "https://images.pexels.com/photos/1851164/pexels-photo-1851164.jpeg?auto=compress&cs=tinysrgb&w=200",
+    practiceSlug: "lone-star-kennels",
+    specialties: "Working Breeds, Early Socialization",
+    bio: "Lone Star Kennels is a premier German Shepherd breeding program based in Austin, Texas. Dedicated to the preservation of working lines, health screening, and balanced temperaments, they have been breeding companion and service dogs for over a decade.",
+    website: "https://lonestarkennels.com",
+    facebook: "https://facebook.com/lonestarkennels",
+    instagram: "https://instagram.com/lonestarkennels",
+  },
+  "dr-michael-rodriguez": {
+    name: "Dr. Michael Rodriguez",
+    slug: "dr-michael-rodriguez",
+    role: "DVM, Senior Associate",
+    type: "vet",
+    photo: "https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=200",
+    practiceSlug: "coastal-pet-hospital",
+    specialties: "Orthopedic Surgery, Sports Medicine",
+    bio: "Dr. Michael Rodriguez is a Senior Associate at Coastal Pet Hospital. He specializes in orthopedic surgery and canine sports medicine, helping active dogs stay in top physical condition and recovering safely from injuries throughout their life stages.",
+    website: "https://coastalpethospital.com",
+    twitter: "https://twitter.com/drmichaelrod",
+  },
+  "dr-patricia-santos": {
+    name: "Dr. Patricia Santos",
+    slug: "dr-patricia-santos",
+    role: "DVM, Practice Owner",
+    type: "vet",
+    photo: "https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=200",
+    practiceSlug: "sunshine-animal-clinic",
+    specialties: "Geriatric Care, Pain Management",
+    bio: "Dr. Patricia Santos is the founder and medical director of Sunshine Animal Clinic. She has a special interest in geriatric canine care, pain management, and acupuncture, focusing on enhancing the comfort and quality of life for senior dogs.",
+    website: "https://sunshineanimalclinic.com",
+    facebook: "https://facebook.com/sunshineanimalclinic",
+  },
+  "dr-lisa-anderson": {
+    name: "Dr. Lisa Anderson",
+    slug: "dr-lisa-anderson",
+    role: "DVM, Owner",
+    type: "vet",
+    photo: "https://images.pexels.com/photos/5327656/pexels-photo-5327656.jpeg?auto=compress&cs=tinysrgb&w=200",
+    practiceSlug: "rocky-mountain-vet-care",
+    specialties: "Behavioral Medicine, Anxiety",
+    bio: "Dr. Lisa Anderson is a licensed veterinarian and behavior specialist. She helps owners resolve canine behavioral challenges, including separation anxiety, reactivity, and resource guarding through evidence-based behavioral modification plans.",
+    website: "https://rockymountainvetcare.com",
+    instagram: "https://instagram.com/dr_lisa_anderson",
+  },
+  "golden-coast-retrievers": {
+    name: "Golden Coast Retrievers",
+    slug: "golden-coast-retrievers",
+    role: "Verified Breeder",
+    type: "breeder",
+    photo: "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=200",
+    practiceSlug: "golden-coast-retrievers",
+    specialties: "Companion Retrievers, Early Training",
+    bio: "Golden Coast Retrievers is a family-owned kennel specializing in health-tested Golden Retrievers. They prioritize early neurological stimulation (ENS), puppy socialization, and matching companion dogs with loving families.",
+    website: "https://goldencoastretrievers.com",
+    facebook: "https://facebook.com/goldencoastretrievers",
+    instagram: "https://instagram.com/goldencoastretrievers",
+  },
+};
+
+export function getAuthorSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+export function getAuthorProfile(slug: string): AuthorProfileDetails | undefined {
+  return AUTHORS_DATA[slug.toLowerCase()];
+}
+
+export function getArticlesByAuthor(authorName: string): Article[] {
+  return ARTICLES.filter((a) => a.author.name.toLowerCase() === authorName.toLowerCase());
+}

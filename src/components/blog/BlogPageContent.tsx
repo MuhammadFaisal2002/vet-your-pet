@@ -4,7 +4,9 @@ import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, Calendar, Clock, User, ArrowRight, CheckCircle2, MapPin, ShieldCheck } from "lucide-react";
-import { ARTICLES, Article, BlogCategory } from "@/data/articles";
+import { ARTICLES, Article, BlogCategory, getAuthorSlug } from "@/data/articles";
+import ArticleCard from "./ArticleCard";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const categories: ("All" | BlogCategory)[] = [
   "All",
@@ -51,8 +53,6 @@ const proContributors = [
 export default function BlogPageContent() {
   const [selectedCategory, setSelectedCategory] = useState<"All" | BlogCategory>("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
 
   // Filter logic
   const filteredArticles = useMemo(() => {
@@ -81,13 +81,6 @@ export default function BlogPageContent() {
     }
     return filteredArticles.filter((a) => !a.featured);
   }, [filteredArticles, selectedCategory, searchQuery]);
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newsletterEmail.trim()) {
-      setNewsletterSubscribed(true);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-pet-bg font-sans">
@@ -207,7 +200,7 @@ export default function BlogPageContent() {
                   </div>
                   <div>
                     <Link
-                      href={`/${featuredArticle.author.type === "vet" ? "veterinarian" : "breeder"}/${featuredArticle.author.slug}`}
+                      href={`/blog/author/${getAuthorSlug(featuredArticle.author.name)}`}
                       className="block font-poppins text-xs font-semibold text-brand-dark hover:text-brand-red transition-colors"
                     >
                       {featuredArticle.author.name}
@@ -251,74 +244,10 @@ export default function BlogPageContent() {
           {recentArticles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch auto-rows-fr">
               {recentArticles.map((article) => (
-                <div
+                <ArticleCard
                   key={article.slug}
-                  className="bg-white rounded-2xl p-6 shadow-card border border-pet-stroke hover-lift flex flex-col h-full"
-                >
-                  {/* Photo */}
-                  <div className="relative aspect-[3/2] w-full rounded-xl overflow-hidden mb-5 bg-gray-50 border border-pet-stroke">
-                    <Image
-                      src={article.image}
-                      alt={article.title}
-                      fill
-                      className="object-cover"
-                      sizes="(min-width: 1024px) 30vw, (min-width: 768px) 50vw, 100vw"
-                    />
-                    <Link
-                      href={`/blog/category/${article.category.toLowerCase()}`}
-                      className="absolute top-3 left-3 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-red text-white text-[10px] font-bold uppercase tracking-wider shadow-sm whitespace-nowrap hover:opacity-90 transition-opacity z-10"
-                    >
-                      {article.category}
-                    </Link>
-                  </div>
-
-                  {/* Meta */}
-                  <div className="flex flex-wrap items-center gap-y-1 gap-x-2 text-xs text-nav-text mb-2">
-                    <span className="whitespace-nowrap">{article.date}</span>
-                    <span className="text-gray-300">•</span>
-                    <span className="whitespace-nowrap">{article.readTime}</span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="font-poppins font-bold text-xl text-brand-dark leading-snug mb-3 hover:text-brand-red transition-colors">
-                    <Link href={`/blog/${article.slug}`}>
-                      {article.title}
-                    </Link>
-                  </h3>
-
-                  {/* Description */}
-                  <p className="font-poppins text-sm text-nav-text leading-relaxed mb-6 flex-1">
-                    {article.description}
-                  </p>
-
-                  {/* Author / CTA Row */}
-                  <div className="flex items-center justify-between border-t border-pet-stroke pt-4 mt-auto">
-                    <div className="flex items-center gap-2">
-                      <div className="relative w-6 h-6 rounded-full overflow-hidden border border-pet-stroke flex-shrink-0">
-                        <Image
-                          src={article.author.photo}
-                          alt={article.author.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <Link
-                        href={`/${article.author.type === "vet" ? "veterinarian" : "breeder"}/${article.author.slug}`}
-                        className="font-poppins text-xs font-semibold text-brand-dark hover:text-brand-red transition-colors"
-                      >
-                        {article.author.name}
-                      </Link>
-                    </div>
-
-                    <Link
-                      href={`/blog/${article.slug}`}
-                      className="inline-flex items-center gap-1 font-poppins font-medium text-xs text-brand-red hover:opacity-85 transition-opacity"
-                    >
-                      Read
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
+                  article={article}
+                />
               ))}
             </div>
           ) : (
@@ -377,8 +306,10 @@ export default function BlogPageContent() {
                 </div>
 
                 <div className="flex flex-col gap-1.5 mb-6">
-                  <h3 className="font-poppins font-semibold text-lg text-brand-dark">
-                    {pro.name}
+                  <h3 className="font-poppins font-semibold text-lg text-brand-dark hover:text-brand-red transition-colors">
+                    <Link href={`/blog/author/${getAuthorSlug(pro.name)}`}>
+                      {pro.name}
+                    </Link>
                   </h3>
                   <span className="inline-flex items-center justify-center gap-1 text-[11px] font-semibold text-pet-green uppercase tracking-wide">
                     <ShieldCheck className="w-3.5 h-3.5 text-pet-green" /> Verified {pro.type}
@@ -405,56 +336,7 @@ export default function BlogPageContent() {
       </section>
 
       {/* 6. Newsletter Signup Card */}
-      <section className="px-6 py-16 md:py-20 bg-pet-bg">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-[#F0EDE8] rounded-xl px-8 md:px-12 py-10 md:py-12 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-            <div className="max-w-lg">
-              <h2 className="font-poppins font-semibold text-[28px] sm:text-[34px] text-brand-dark leading-[120%] tracking-[-0.4px] mb-2">
-                Stay Updated with Vet Your Pet
-              </h2>
-              <p className="font-poppins text-sm md:text-base text-nav-text leading-relaxed">
-                Receive weekly pet care updates, breed finder insights, and health advice 
-                directly from certified animal care specialists in your inbox.
-              </p>
-            </div>
-
-            <div className="flex-shrink-0 w-full lg:max-w-md">
-              {!newsletterSubscribed ? (
-                <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 w-full">
-                  <div className="flex-1">
-                    <input
-                      type="email"
-                      required
-                      value={newsletterEmail}
-                      onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="w-full rounded-lg border border-pet-stroke bg-white px-[15px] py-[11px] text-[14px] placeholder:text-pet-placeholder focus:border-pet-blue focus:shadow-md focus:outline-none transition"
-                      placeholder="Enter your email address"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="btn-animate inline-flex items-center justify-center font-poppins font-semibold text-sm bg-brand-red text-white rounded-full px-6 py-3 hover:opacity-90 transition-opacity flex-shrink-0"
-                  >
-                    Subscribe Now
-                  </button>
-                </form>
-              ) : (
-                <div className="flex items-center gap-3 bg-white border border-pet-green/20 rounded-xl p-5 shadow-sm">
-                  <CheckCircle2 className="w-8 h-8 text-pet-green flex-shrink-0" />
-                  <div>
-                    <h4 className="font-poppins font-semibold text-sm text-brand-dark">
-                      Successfully Subscribed!
-                    </h4>
-                    <p className="text-xs text-nav-text mt-0.5">
-                      Thank you! You are now subscribed to the Vet Your Pet newsletter at {newsletterEmail}.
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      <NewsletterSignup className="bg-pet-bg" />
     </div>
   );
 }

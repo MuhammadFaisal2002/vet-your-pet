@@ -4,9 +4,10 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight, ArrowRight } from "lucide-react";
-import { Article } from "@/data/articles";
+import { Article, getAuthorSlug } from "@/data/articles";
 import AuthorCard from "./AuthorCard";
 import ShareButtons from "./ShareButtons";
+import ArticleCard from "./ArticleCard";
 
 interface BlogDetailPageContentProps {
   article: Article;
@@ -99,7 +100,7 @@ export default function BlogDetailPageContent({
                 />
               </div>
               <Link
-                href={`/${article.author.type === "vet" ? "veterinarian" : "breeder"}/${article.author.slug}`}
+                href={`/blog/author/${getAuthorSlug(article.author.name)}`}
                 className="font-poppins font-semibold text-brand-dark hover:text-brand-red transition-colors"
               >
                 {article.author.name}
@@ -232,72 +233,10 @@ export default function BlogDetailPageContent({
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch auto-rows-fr">
               {relatedArticles.map((relArt) => (
-                <div
+                <ArticleCard
                   key={relArt.slug}
-                  className="bg-white rounded-2xl p-6 shadow-card border border-pet-stroke hover-lift flex flex-col h-full"
-                >
-                  {/* Photo */}
-                  <div className="relative aspect-[3/2] w-full rounded-xl overflow-hidden mb-5 bg-gray-50 border border-pet-stroke">
-                    <Image
-                      src={relArt.image}
-                      alt={relArt.title}
-                      fill
-                      className="object-cover"
-                      sizes="(min-width: 1024px) 30vw, (min-width: 768px) 50vw, 100vw"
-                    />
-                    <Link
-                      href={`/blog/category/${relArt.category.toLowerCase()}`}
-                      className="absolute top-3 left-3 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-red text-white text-[10px] font-bold uppercase tracking-wider shadow-sm whitespace-nowrap hover:opacity-90 transition-opacity z-10"
-                    >
-                      {relArt.category}
-                    </Link>
-                  </div>
-
-                  {/* Meta */}
-                  <div className="flex flex-wrap items-center gap-y-1 gap-x-2 text-xs text-nav-text mb-2">
-                    <span className="whitespace-nowrap">{relArt.date}</span>
-                    <span className="text-gray-300">•</span>
-                    <span className="whitespace-nowrap">{relArt.readTime}</span>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="font-poppins font-bold text-xl text-brand-dark leading-snug mb-3 hover:text-brand-red transition-colors">
-                    <Link href={`/blog/${relArt.slug}`}>{relArt.title}</Link>
-                  </h3>
-
-                  {/* Description */}
-                  <p className="font-poppins text-sm text-nav-text leading-relaxed mb-6 flex-1">
-                    {relArt.description}
-                  </p>
-
-                  {/* Author / CTA Row */}
-                  <div className="flex items-center justify-between border-t border-pet-stroke pt-4 mt-auto">
-                    <div className="flex items-center gap-2">
-                      <div className="relative w-6 h-6 rounded-full overflow-hidden border border-pet-stroke flex-shrink-0">
-                        <Image
-                          src={relArt.author.photo}
-                          alt={relArt.author.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <Link
-                        href={`/${relArt.author.type === "vet" ? "veterinarian" : "breeder"}/${relArt.author.slug}`}
-                        className="font-poppins text-xs font-semibold text-brand-dark hover:text-brand-red transition-colors"
-                      >
-                        {relArt.author.name}
-                      </Link>
-                    </div>
-
-                    <Link
-                      href={`/blog/${relArt.slug}`}
-                      className="inline-flex items-center gap-1 font-poppins font-medium text-xs text-brand-red hover:opacity-85 transition-opacity"
-                    >
-                      Read
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
+                  article={relArt}
+                />
               ))}
             </div>
           </div>
