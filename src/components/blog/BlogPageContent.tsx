@@ -92,7 +92,7 @@ export default function BlogPageContent() {
   return (
     <div className="min-h-screen bg-pet-bg font-sans">
       {/* 1. Hero Section */}
-      <section className="bg-white px-6 md:px-12 lg:px-20 pt-12 md:pt-16 pb-12 border-b border-pet-stroke">
+      <section className="bg-white px-6 pt-12 md:pt-16 pb-12 border-b border-pet-stroke">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
           <span className="inline-flex items-center gap-2 font-poppins font-medium text-xs text-brand-red mb-4 tracking-wide uppercase">
             Articles & Insights
@@ -108,7 +108,7 @@ export default function BlogPageContent() {
       </section>
 
       {/* 2. Filter Bar & Search Widget */}
-      <section className="bg-white px-6 md:px-12 lg:px-20 py-8 border-b border-pet-stroke sticky top-0 z-30 shadow-sm">
+      <section className="bg-white px-6 py-8 border-b border-pet-stroke sticky top-0 z-30 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
           {/* Categories Horizontal Pills list */}
           <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0">
@@ -154,7 +154,7 @@ export default function BlogPageContent() {
 
       {/* 3. Featured Article Section (Only displayed when not filtering/searching) */}
       {selectedCategory === "All" && !searchQuery && featuredArticle && (
-        <section className="px-6 md:px-12 lg:px-20 py-12 md:py-16 bg-white">
+        <section className="px-6 py-12 md:py-16 bg-white">
           <div className="max-w-7xl mx-auto">
             <span className="inline-flex items-center gap-2 font-poppins font-medium text-xs text-brand-red mb-4 tracking-wide uppercase">
               Featured Article
@@ -231,7 +231,7 @@ export default function BlogPageContent() {
       )}
 
       {/* 4. Recent / Filtered Articles Grid */}
-      <section className="px-6 md:px-12 lg:px-20 py-16 md:py-20 bg-pet-bg">
+      <section className="px-6 py-16 md:py-20 bg-pet-bg">
         <div className="max-w-7xl mx-auto">
           {/* Header row */}
           <div className="flex flex-col items-start mb-10">
@@ -343,7 +343,7 @@ export default function BlogPageContent() {
       </section>
 
       {/* 5. "Authored by Pros" Section */}
-      <section className="px-6 md:px-12 lg:px-20 py-16 md:py-20 bg-white">
+      <section className="px-6 py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           {/* Header */}
           <div className="flex flex-col items-center text-center mb-12">
@@ -405,7 +405,7 @@ export default function BlogPageContent() {
       </section>
 
       {/* 6. Newsletter Signup Card */}
-      <section className="px-6 md:px-12 lg:px-20 py-16 md:py-20 bg-pet-bg">
+      <section className="px-6 py-16 md:py-20 bg-pet-bg">
         <div className="max-w-7xl mx-auto">
           <div className="bg-[#F0EDE8] rounded-xl px-8 md:px-12 py-10 md:py-12 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="max-w-lg">

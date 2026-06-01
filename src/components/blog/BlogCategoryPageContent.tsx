@@ -35,7 +35,7 @@ export default function BlogCategoryPageContent({
   return (
     <div className="min-h-screen bg-pet-bg font-sans">
       {/* 1. Breadcrumbs */}
-      <nav className="px-6 md:px-12 lg:px-20 pt-6 pb-2 max-w-7xl mx-auto">
+      <nav className="px-6 pt-6 pb-2 max-w-7xl mx-auto w-full">
         <ol className="flex items-center flex-wrap gap-2 text-xs font-poppins font-medium text-nav-text">
           <li>
             <Link href="/" className="hover:text-brand-red transition-colors">
@@ -60,7 +60,7 @@ export default function BlogCategoryPageContent({
       </nav>
 
       {/* 2. Hero Section */}
-      <section className="bg-white px-6 md:px-12 lg:px-20 pt-8 pb-12 border-b border-pet-stroke mb-8">
+      <section className="bg-white px-6 pt-8 pb-12 border-b border-pet-stroke mb-8">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
           <span className="inline-flex items-center gap-2 font-poppins font-medium text-xs text-brand-red mb-4 tracking-wide uppercase">
             Category Browse
@@ -75,7 +75,7 @@ export default function BlogCategoryPageContent({
       </section>
 
       {/* 3. Articles Grid */}
-      <section className="px-6 md:px-12 lg:px-20 py-8 bg-pet-bg">
+      <section className="px-6 py-8 bg-pet-bg">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col items-start mb-8">
             <span className="inline-flex items-center gap-2 font-poppins font-medium text-xs text-brand-red mb-3 tracking-wide uppercase">
@@ -174,7 +174,7 @@ export default function BlogCategoryPageContent({
       </section>
 
       {/* 4. Related Categories */}
-      <section className="px-6 md:px-12 lg:px-20 py-12 bg-white border-t border-b border-pet-stroke">
+      <section className="px-6 py-12 bg-white border-t border-b border-pet-stroke">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
           <span className="inline-flex items-center gap-2 font-poppins font-medium text-xs text-brand-red mb-3 tracking-wide uppercase">
             Explore Other Topics
@@ -198,7 +198,7 @@ export default function BlogCategoryPageContent({
       </section>
 
       {/* 5. Newsletter Signup */}
-      <section className="px-6 md:px-12 lg:px-20 py-16 md:py-20 bg-pet-bg">
+      <section className="px-6 py-16 md:py-20 bg-pet-bg">
         <div className="max-w-7xl mx-auto">
           <div className="bg-[#F0EDE8] rounded-xl px-8 md:px-12 py-10 md:py-12 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="max-w-lg">

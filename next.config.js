@@ -4,9 +4,6 @@ const nextConfig = {
   devIndicators: {
     buildActivity: false,
   },
-  onDemandEntries: {
-    maxInactiveAge: 60 * 60 * 1000,
-  },
   images: {
     remotePatterns: [
       {
@@ -25,6 +22,13 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+  },
+  webpack: (config, { dev }) => {
+    // Disable webpack disk caching in development to permanently fix Windows file system locking & cache corruption
+    if (dev) {
+      config.cache = false;
+    }
+    return config;
   },
 };
 
