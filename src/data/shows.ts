@@ -155,10 +155,51 @@ export const DOG_SHOWS: DogShow[] = [
   },
 ];
 
+// ─── State slug map ─────────────────────────────────────────────────────────
+// Maps a URL-safe slug (e.g. "new-york") to the stateAbbr used in DOG_SHOWS.
+export const STATE_SLUG_MAP: Record<string, { abbr: string; name: string }> = {
+  "california":  { abbr: "CA", name: "California" },
+  "colorado":    { abbr: "CO", name: "Colorado" },
+  "florida":     { abbr: "FL", name: "Florida" },
+  "illinois":    { abbr: "IL", name: "Illinois" },
+  "new-york":    { abbr: "NY", name: "New York" },
+  "texas":       { abbr: "TX", name: "Texas" },
+  "washington":  { abbr: "WA", name: "Washington" },
+};
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
 export function getAllShows(): DogShow[] {
   return DOG_SHOWS;
 }
 
 export function getFeaturedShows(): DogShow[] {
   return DOG_SHOWS.filter((s) => s.featured);
+}
+
+/** Returns all state slugs — used for generateStaticParams in the by-state route. */
+export function getAllStatesSlugs(): string[] {
+  return Object.keys(STATE_SLUG_MAP);
+}
+
+/** Returns shows for a given state slug, or null if slug is unknown. */
+export function getShowsByStateSlug(stateSlug: string): {
+  shows: DogShow[];
+  stateName: string;
+  stateAbbr: string;
+} | null {
+  const entry = STATE_SLUG_MAP[stateSlug];
+  if (!entry) return null;
+  const shows = DOG_SHOWS.filter((s) => s.stateAbbr === entry.abbr);
+  return { shows, stateName: entry.name, stateAbbr: entry.abbr };
+}
+
+/** Returns all states that have at least one show, with counts. */
+export function getStatesWithShowCounts(): Array<{ slug: string; name: string; abbr: string; count: number }> {
+  return Object.entries(STATE_SLUG_MAP).map(([slug, { abbr, name }]) => ({
+    slug,
+    name,
+    abbr,
+    count: DOG_SHOWS.filter((s) => s.stateAbbr === abbr).length,
+  }));
 }

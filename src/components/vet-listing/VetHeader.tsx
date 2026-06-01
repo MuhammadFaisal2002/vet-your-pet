@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { VetRecord } from "@/data/vet-types";
-import { StarRating } from "@/components/breeder-listing/StarRating";
+import { StarRating } from "@/components/ui/StarRating";
 
 // Icons for trust pills
 function VerifiedIcon() {
@@ -118,7 +118,7 @@ export function VetHeader({ vet }: VetHeaderProps) {
 
         {/* Rating */}
         <div className="flex items-center gap-2 pt-2">
-          <StarRating count={Math.round(vet.rating)} size="md" />
+          <StarRating rating={Math.round(vet.rating)} size="md" showEmpty={false} />
           <span className="font-poppins text-base font-semibold text-brand-dark">
             {vet.rating.toFixed(1)}
           </span>

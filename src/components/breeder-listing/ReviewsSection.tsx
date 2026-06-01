@@ -73,7 +73,7 @@ export function ReviewsSection() {
           {/* Rating Badge */}
           <div className="flex items-center gap-2 px-2.5 py-[5px] rounded-full border border-gvd-stroke bg-white">
             <div className="flex items-center gap-1">
-              <StarRating count={1} size="md" />
+              <StarRating rating={1} max={1} size="md" showEmpty={false} />
               <span className="text-gvd-black font-medium text-[15px] leading-[136%]">4.8</span>
             </div>
             <span className="text-[#A4ACB7] text-xs font-normal leading-[120%]">(32 reviews)</span>

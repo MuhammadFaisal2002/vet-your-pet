@@ -19,9 +19,12 @@ import {
   X,
   Building,
   Sparkles,
+  ArrowRight,
 } from "lucide-react";
 import { DOG_SHOWS, DogShow } from "@/data/shows";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import { ShowCard } from "./ShowCard";
+import { ShowModal } from "./ShowModal";
 
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
@@ -300,75 +303,7 @@ export default function DogShowsPageContent() {
           filteredShows.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-stretch">
               {filteredShows.map((show) => (
-                <div
-                  key={show.slug}
-                  className="bg-white rounded-2xl p-6 shadow-card border border-pet-stroke hover-lift flex flex-col h-full justify-between"
-                >
-                  <div>
-                    {/* Show Photo */}
-                    <div className="relative aspect-[3/2] w-full rounded-xl overflow-hidden mb-5 bg-gray-50 border border-pet-stroke">
-                      <Image
-                        src={show.photo}
-                        alt={show.name}
-                        fill
-                        className="object-cover"
-                        sizes="(min-width: 1024px) 30vw, (min-width: 768px) 50vw, 100vw"
-                      />
-                      <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-red text-white text-[10px] font-bold uppercase tracking-wider shadow-sm z-10 font-poppins">
-                        {show.organization}
-                      </span>
-                    </div>
-
-                    {/* Show details info */}
-                    <div className="flex flex-col gap-3">
-                      <h3 className="font-poppins font-bold text-lg text-brand-dark leading-snug hover:text-brand-red transition-colors line-clamp-2">
-                        <button
-                          onClick={() => setSelectedShow(show)}
-                          className="text-left font-bold"
-                        >
-                          {show.name}
-                        </button>
-                      </h3>
-
-                      <div className="flex flex-col gap-2 text-xs text-nav-text font-poppins mt-1">
-                        <div className="flex items-center gap-2">
-                          <CalendarIcon className="w-4 h-4 text-brand-red flex-shrink-0" />
-                          <span>{show.dates}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-brand-red flex-shrink-0" />
-                          <span className="font-semibold text-brand-dark">
-                            {show.city}, {show.stateAbbr}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Building className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                          <span className="line-clamp-1">{show.venue}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <DollarSign className="w-4 h-4 text-pet-green flex-shrink-0" />
-                          <span>Entry Fee: <span className="font-semibold text-brand-dark">${show.entryFee}</span></span>
-                        </div>
-                      </div>
-
-                      <p className="font-poppins text-xs text-nav-text leading-relaxed line-clamp-3 mt-2 border-t border-pet-stroke pt-3">
-                        {show.details}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-5 pt-4 border-t border-pet-stroke flex items-center justify-between">
-                    <span className="text-[10px] font-bold text-pet-tag-text bg-pet-tag-bg px-2.5 py-1 rounded-full uppercase tracking-wider font-poppins">
-                      {show.club}
-                    </span>
-                    <button
-                      onClick={() => setSelectedShow(show)}
-                      className="inline-flex items-center justify-center font-poppins font-semibold text-xs bg-brand-red text-white rounded-full px-4 py-2 hover:opacity-90 transition-opacity"
-                    >
-                      View Details
-                    </button>
-                  </div>
-                </div>
+                <ShowCard key={show.slug} show={show} onDetails={setSelectedShow} />
               ))}
             </div>
           ) : (
@@ -490,66 +425,7 @@ export default function DogShowsPageContent() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {featuredShows.map((show) => (
-              <div
-                key={`featured-${show.slug}`}
-                className="bg-white rounded-2xl shadow-card border border-pet-stroke overflow-hidden hover-lift flex flex-col md:flex-row items-stretch"
-              >
-                {/* Photo Left/Top */}
-                <div className="w-full md:w-[45%] relative min-h-[220px]">
-                  <Image
-                    src={show.photo}
-                    alt={show.name}
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 768px) 25vw, 100vw"
-                  />
-                  <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-dark text-white text-[10px] font-bold uppercase tracking-wider shadow-sm z-10 font-poppins">
-                    <Sparkles className="w-3 h-3 text-brand-red" />
-                    Featured
-                  </span>
-                </div>
-
-                {/* Info Right */}
-                <div className="w-full md:w-[55%] p-6 flex flex-col justify-between gap-4">
-                  <div className="flex flex-col gap-2">
-                    <span className="text-[10px] font-bold text-brand-red uppercase tracking-wider font-poppins">
-                      {show.organization}
-                    </span>
-                    <h3 className="font-poppins font-bold text-xl text-brand-dark leading-tight hover:text-brand-red transition-colors line-clamp-2">
-                      <button onClick={() => setSelectedShow(show)} className="text-left font-bold">
-                        {show.name}
-                      </button>
-                    </h3>
-
-                    <div className="flex flex-col gap-1.5 text-xs text-nav-text font-poppins mt-2">
-                      <div className="flex items-center gap-2">
-                        <CalendarIcon className="w-3.5 h-3.5 text-brand-red" />
-                        <span>{show.dates}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-3.5 h-3.5 text-brand-red" />
-                        <span className="font-semibold text-brand-dark">{show.city}, {show.stateAbbr}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Building className="w-3.5 h-3.5 text-gray-400" />
-                        <span className="truncate">{show.venue}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between border-t border-pet-stroke pt-4 mt-2">
-                    <span className="text-xs text-brand-dark font-poppins font-semibold">
-                      Entry Fee: ${show.entryFee}
-                    </span>
-                    <button
-                      onClick={() => setSelectedShow(show)}
-                      className="inline-flex items-center justify-center font-poppins font-semibold text-xs bg-brand-red text-white rounded-full px-4 py-2 hover:opacity-90 transition-opacity"
-                    >
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ShowCard key={`featured-${show.slug}`} show={show} onDetails={setSelectedShow} />
             ))}
           </div>
         </div>
@@ -574,24 +450,34 @@ export default function DogShowsPageContent() {
             {US_STATES.map((state) => {
               const count = stateCounts[state.code] || 0;
               const isActive = selectedState === state.code;
+              // Derive the URL-safe slug from the state name
+              const stateSlug = state.name.toLowerCase().replace(/\s+/g, "-");
               return (
-                <button
-                  key={state.code}
-                  onClick={() => handleStateClick(state.code)}
-                  className={`border rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 ${
-                    isActive
-                      ? "bg-brand-red border-brand-red text-white shadow-md hover:bg-brand-red/90"
-                      : "bg-white border-pet-stroke text-brand-dark hover:border-brand-dark hover:-translate-y-0.5 shadow-sm"
-                  }`}
-                >
-                  <MapPin className={`w-6 h-6 mb-2 ${isActive ? "text-white" : "text-brand-red"}`} />
-                  <span className="font-poppins font-semibold text-xs leading-snug line-clamp-1">
-                    {state.name}
-                  </span>
-                  <span className={`font-poppins text-[10px] mt-1 ${isActive ? "text-white/80" : "text-nav-text"}`}>
-                    {count} {count === 1 ? "Show" : "Shows"}
-                  </span>
-                </button>
+                <div key={state.code} className="flex flex-col gap-2">
+                  <button
+                    onClick={() => handleStateClick(state.code)}
+                    className={`border rounded-xl p-4 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 ${
+                      isActive
+                        ? "bg-brand-red border-brand-red text-white shadow-md hover:bg-brand-red/90"
+                        : "bg-white border-pet-stroke text-brand-dark hover:border-brand-dark hover:-translate-y-0.5 shadow-sm"
+                    }`}
+                  >
+                    <MapPin className={`w-6 h-6 mb-2 ${isActive ? "text-white" : "text-brand-red"}`} />
+                    <span className="font-poppins font-semibold text-xs leading-snug line-clamp-1">
+                      {state.name}
+                    </span>
+                    <span className={`font-poppins text-[10px] mt-1 ${isActive ? "text-white/80" : "text-nav-text"}`}>
+                      {count} {count === 1 ? "Show" : "Shows"}
+                    </span>
+                  </button>
+                  <Link
+                    href={`/dog-shows/state/${stateSlug}`}
+                    className="group flex items-center justify-center gap-1.5 rounded-[10px] bg-white border border-pet-stroke px-3 py-2 font-poppins text-[11px] font-semibold text-brand-dark shadow-sm transition-all hover:bg-brand-red hover:border-brand-red hover:text-white"
+                  >
+                    View state events
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
               );
             })}
           </div>
@@ -660,107 +546,7 @@ export default function DogShowsPageContent() {
 
       {/* Show Details Modal */}
       {selectedShow && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative border border-pet-stroke">
-            {/* Header Photo banner */}
-            <div className="relative aspect-[16/9] w-full bg-gray-50 border-b border-pet-stroke">
-              <Image
-                src={selectedShow.photo}
-                alt={selectedShow.name}
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent flex items-end p-6">
-                <div>
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-red text-white text-[10px] font-bold uppercase tracking-wider shadow-sm mb-2 font-poppins">
-                    {selectedShow.organization}
-                  </span>
-                  <h3 className="font-poppins font-bold text-xl sm:text-2xl text-white leading-tight">
-                    {selectedShow.name}
-                  </h3>
-                </div>
-              </div>
-              <button
-                onClick={() => setSelectedShow(null)}
-                className="absolute top-4 right-4 bg-white/90 hover:bg-white text-brand-dark p-2 rounded-full shadow-md transition-colors"
-                aria-label="Close dialog"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="p-6 sm:p-8 flex flex-col gap-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-pet-bg rounded-2xl p-4 border border-pet-stroke font-poppins text-sm text-nav-text">
-                <div className="flex items-center gap-3">
-                  <CalendarIcon className="w-5 h-5 text-brand-red flex-shrink-0" />
-                  <div>
-                    <span className="block text-[10px] text-nav-text uppercase tracking-wider">Date</span>
-                    <span className="font-semibold text-brand-dark">{selectedShow.dates}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-brand-red flex-shrink-0" />
-                  <div>
-                    <span className="block text-[10px] text-nav-text uppercase tracking-wider">Location</span>
-                    <span className="font-semibold text-brand-dark">{selectedShow.city}, {selectedShow.stateAbbr}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Building className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                  <div>
-                    <span className="block text-[10px] text-nav-text uppercase tracking-wider">Venue</span>
-                    <span className="font-semibold text-brand-dark line-clamp-1">{selectedShow.venue}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <DollarSign className="w-5 h-5 text-pet-green flex-shrink-0" />
-                  <div>
-                    <span className="block text-[10px] text-nav-text uppercase tracking-wider">Entry Fee</span>
-                    <span className="font-semibold text-brand-dark">${selectedShow.entryFee} USD</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Club Host Info */}
-              <div className="flex items-center gap-3 border-b border-pet-stroke pb-4">
-                <span className="w-2 h-2 rounded-full bg-brand-red flex-shrink-0" />
-                <span className="font-poppins text-xs font-semibold text-brand-dark uppercase tracking-wider">
-                  Host Club: <span className="text-brand-red">{selectedShow.club}</span>
-                </span>
-              </div>
-
-              {/* Description */}
-              <div>
-                <h4 className="font-poppins font-bold text-sm text-brand-dark mb-2">
-                  Event Details & Eligibility
-                </h4>
-                <p className="font-poppins text-sm text-nav-text leading-relaxed">
-                  {selectedShow.details}
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex items-center gap-3 border-t border-pet-stroke pt-6 mt-2">
-                <button
-                  onClick={() => setSelectedShow(null)}
-                  className="flex-1 font-poppins font-semibold text-xs text-brand-dark border border-pet-stroke rounded-full py-3 hover:border-brand-dark transition-colors text-center"
-                >
-                  Close
-                </button>
-                <button
-                  onClick={() => {
-                    alert(`Directing to ${selectedShow.organization} official entry registry portal.`);
-                    setSelectedShow(null);
-                  }}
-                  className="flex-1 font-poppins font-semibold text-xs bg-brand-red text-white rounded-full py-3 hover:opacity-90 transition-opacity text-center"
-                >
-                  Enter Event / Register
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ShowModal show={selectedShow} onClose={() => setSelectedShow(null)} />
       )}
     </div>
   );

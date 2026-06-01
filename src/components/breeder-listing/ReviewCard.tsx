@@ -25,7 +25,7 @@ export function ReviewCard({
           <p className="text-gvd-dark-2 font-normal text-xs leading-normal">{adopted}</p>
         </div>
         <div className="flex items-center gap-4 flex-shrink-0">
-          <StarRating count={rating} size="sm" />
+          <StarRating rating={rating} size="sm" showEmpty={false} />
           <span className="text-gvd-gray-3 text-sm font-normal leading-5">{date}</span>
         </div>
       </div>
