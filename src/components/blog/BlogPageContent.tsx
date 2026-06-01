@@ -175,9 +175,12 @@ export default function BlogPageContent() {
               {/* Text info - Right */}
               <div className="w-full lg:w-[50%] p-6 md:p-10 flex flex-col justify-center gap-4">
                 <div className="flex flex-wrap items-center gap-y-2 gap-x-2 sm:gap-x-3 text-xs text-nav-text">
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-red/10 text-brand-red border border-brand-red/20 font-semibold whitespace-nowrap">
+                  <Link
+                    href={`/blog/category/${featuredArticle.category.toLowerCase()}`}
+                    className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-red/10 text-brand-red border border-brand-red/20 font-semibold whitespace-nowrap hover:bg-brand-red/20 transition-colors"
+                  >
                     {featuredArticle.category}
-                  </span>
+                  </Link>
                   <span className="text-gray-300">•</span>
                   <span className="whitespace-nowrap">{featuredArticle.date}</span>
                   <span className="text-gray-300">•</span>
@@ -261,9 +264,12 @@ export default function BlogPageContent() {
                       className="object-cover"
                       sizes="(min-width: 1024px) 30vw, (min-width: 768px) 50vw, 100vw"
                     />
-                    <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-red text-white text-[10px] font-bold uppercase tracking-wider shadow-sm whitespace-nowrap">
+                    <Link
+                      href={`/blog/category/${article.category.toLowerCase()}`}
+                      className="absolute top-3 left-3 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-red text-white text-[10px] font-bold uppercase tracking-wider shadow-sm whitespace-nowrap hover:opacity-90 transition-opacity z-10"
+                    >
                       {article.category}
-                    </span>
+                    </Link>
                   </div>
 
                   {/* Meta */}

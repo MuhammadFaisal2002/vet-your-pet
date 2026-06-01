@@ -157,3 +157,79 @@ export function getAllArticles(): Article[] {
 export function getFeaturedArticle(): Article | undefined {
   return ARTICLES.find((a) => a.featured);
 }
+
+export interface CategoryDetails {
+  name: BlogCategory;
+  slug: string;
+  title: string;
+  description: string;
+  seoTitle: string;
+  seoDescription: string;
+}
+
+export const CATEGORIES: Record<string, CategoryDetails> = {
+  care: {
+    name: "Care",
+    slug: "care",
+    title: "Dog Care Articles & Grooming Tips",
+    description: "Learn essential dog care tips, grooming guides, and daily routines to keep your canine companion happy, healthy, and thriving.",
+    seoTitle: "Dog Care Articles & Grooming Tips - Vet Your Pet",
+    seoDescription: "Discover verified dog care articles and grooming tips written and reviewed by professional veterinarians and ethical breeders."
+  },
+  training: {
+    name: "Training",
+    slug: "training",
+    title: "Canine Training Tips & Obedience Guides",
+    description: "Master puppy socialization, obedience training, and positive reinforcement techniques recommended by verified dog trainers.",
+    seoTitle: "Dog Training Tips & Obedience Guides - Vet Your Pet",
+    seoDescription: "Browse expert dog training tips, obedience guides, and positive reinforcement articles from certified professionals."
+  },
+  health: {
+    name: "Health",
+    slug: "health",
+    title: "Dog Health Guidelines & Veterinary Advice",
+    description: "Access expert guidelines on vaccines, preventive health, common canine ailments, and wellness routines.",
+    seoTitle: "Dog Health Articles & Veterinary Tips - Vet Your Pet",
+    seoDescription: "Stay informed with verified dog health articles, preventive wellness guides, and expert advice from licensed veterinarians."
+  },
+  breeds: {
+    name: "Breeds",
+    slug: "breeds",
+    title: "Dog Breed Profiles & Guides",
+    description: "Explore breed characteristics, sizing, energy levels, and history to find the perfect breed companion for your lifestyle.",
+    seoTitle: "Dog Breed Articles & Sizing Tips - Vet Your Pet",
+    seoDescription: "Learn about different dog breed profiles, characteristics, sizing, and history in our expert breeder-reviewed guides."
+  },
+  shows: {
+    name: "Shows",
+    slug: "shows",
+    title: "Dog Show Preparation & Ringside Guides",
+    description: "Step-by-step guides for entering AKC dog shows, understanding conformation standards, ring handling, and grooming preparation.",
+    seoTitle: "Dog Shows Articles & Ring Handling Tips - Vet Your Pet",
+    seoDescription: "Get ready for conformation events with expert dog shows articles, ring handling tips, and conformation guidelines."
+  },
+  nutrition: {
+    name: "Nutrition",
+    slug: "nutrition",
+    title: "Dog Nutrition & Healthy Diet Advice",
+    description: "Get recommendations on feeding schedules, puppy diets, raw vs kibble feeding, and understanding pet food labels.",
+    seoTitle: "Dog Nutrition Articles & Diet Tips - Vet Your Pet",
+    seoDescription: "Feed your canine the best with expert dog nutrition articles, puppy diet guides, and veterinarian-reviewed advice."
+  },
+  behavior: {
+    name: "Behavior",
+    slug: "behavior",
+    title: "Canine Behavior Tips & Psychological Insights",
+    description: "Understand canine psychology, decode body language, and manage separation anxiety or behavior challenges.",
+    seoTitle: "Dog Behavior Articles & Psychological Tips - Vet Your Pet",
+    seoDescription: "Understand your dog better with expert canine behavior articles, body language guides, and psychological tips."
+  }
+};
+
+export function getCategoryBySlug(slug: string): CategoryDetails | undefined {
+  return CATEGORIES[slug.toLowerCase()];
+}
+
+export function getArticlesByCategory(categoryName: BlogCategory): Article[] {
+  return ARTICLES.filter((a) => a.category === categoryName);
+}
