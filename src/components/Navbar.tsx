@@ -42,10 +42,10 @@ export default function Navbar() {
         {/* Claim Listing Button */}
         <div className="hidden md:flex">
           <Link
-            href="/claim-listing"
+            href="/for-pros"
             className="font-poppins font-medium text-sm text-nav-border border border-nav-border rounded-full px-4 py-2 hover:bg-gray-50 transition-colors"
           >
-            Claim Listing
+            For Professionals
           </Link>
         </div>
 
@@ -94,11 +94,11 @@ export default function Navbar() {
             </Link>
           ))}
           <Link
-            href="/claim-listing"
+            href="/for-pros"
             className="font-poppins font-medium text-sm text-nav-border border border-nav-border rounded-full px-4 py-2 text-center hover:bg-gray-50 transition-colors mt-2"
             onClick={() => setMobileOpen(false)}
           >
-            Claim Listing
+            For Professionals
           </Link>
         </div>
       )}

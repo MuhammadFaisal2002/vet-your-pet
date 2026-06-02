@@ -13,10 +13,10 @@ const navColumns = [
   {
     heading: "For Professionals",
     links: [
-      { label: "Claim Your Listing", href: "/claim-listing" },
-      { label: "Veterinarian Sign Up", href: "/claim-listing" },
-      { label: "Breeder Registration", href: "/claim-listing" },
-      { label: "Advertise With Us", href: "/claim-listing" },
+      { label: "For Professionals Hub", href: "/for-pros" },
+      { label: "Claim Your Listing", href: "/for-pros" },
+      { label: "Veterinarian Sign Up", href: "/for-pros" },
+      { label: "Breeder Registration", href: "/for-pros" },
     ],
   },
   {
